@@ -36,14 +36,7 @@
   },
   "image": "heroku/nodejs",
   "addons": ["scheduler"],
-  "formation": [
-    {
-      "web": {
-        "quantity": 0,
-        "size": "free"
-      }
-    }
-  ],
+  "formation": [],
   "buildpacks": [
     {
       "url": "heroku/nodejs"
