@@ -83,6 +83,21 @@ The easiest way to run this script on a chron scheduler is to deploy it to Herok
 
 Heroku will require that you input the ENV vars that are necessary to run the script, and will run the `testSetup.ts` script after a successful deploy, so if you're using the Discord functionality you should receive a message.
 
+The `scheduler` add-on is included in the `app.json` but **you still must schedule the script to run** and we recommend running it hourly on the `:10` minute. This way the script will run every hour 10 minutes after the hour, which will allow the script to easily determine which CryptOrchids need watering, while allowing the Ethereum blockchain 50 minutes to complete watering.
+
+To set up the `waterPlants.ts` script to run, once your Heroku app finishes deploying, click "Manage App", and then navigate to the Heroku Scheduler addon. Create a new job, run it every hour on the `:10`, and enter 
+
+```bash
+yarn ts-node waterPlants.ts
+```
+
+as the Run Command.
+
+Your form should look like this:
+
+![Heroku scheduler screenshot](./.github/heroku-scheduler.png)
+
+With that you're all set! If you chose to use the Discord bot functionality, you'll receive messages when the Watering Can performs the `water` method with a link to the transaction on Etherscan.
 
 ## Disclaimer
 
