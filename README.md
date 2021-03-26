@@ -16,7 +16,7 @@ If you want to use the script's Discord messaging functionality, you will need a
 
 This script can easily be deployed to Heroku and run on a job schedule, so you'll need a free Heroku account from https://heroku.com. The script can be run locally or from any server that offers a NodeJS runtime.
 
-Fnally, you may also want to create a new wallet to hold your CryptOrchids in. This script will require you to set your seed phrase or private key as ENV variables to authenticate. Storing these secrets on Heroku is probably fine, but to reduce risk of leaking the secrets to your primary wallet, use a CryptOrchids specific wallet.
+Finally, you may also want to create a new wallet to hold your CryptOrchids in. This script will require you to set your private key as an ENV variable to authenticate. Storing these secrets on Heroku is probably fine, but to reduce risk of leaking the secrets to your primary wallet, use a CryptOrchids specific wallet.
 
 ## Discord Setup
 
@@ -65,6 +65,8 @@ $ yarn ts-node ./testSetup.ts
 $ ts-node ./testSetup.ts
 ```
 
+If you're using the Discord functionality, you should receive a private message from your bot. Otherwise the message will be printed to the terminal.
+
 If the script runs scucessfully with the expected address, then you're ready to use the watering can. To run the watering script, use `ts-node` to run the `waterPlants.ts` script:
 
 ```
@@ -79,7 +81,8 @@ The easiest way to run this script on a chron scheduler is to deploy it to Herok
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-Heroku will require that you input the ENV vars that are necessary to run the script.
+Heroku will require that you input the ENV vars that are necessary to run the script, and will run the `testSetup.ts` script after a successful deploy, so if you're using the Discord functionality you should receive a message.
+
 
 ## Disclaimer
 

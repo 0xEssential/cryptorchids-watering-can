@@ -26,21 +26,21 @@ export function node_url(networkName: string): string {
   return uri;
 }
 
-export function getMnemonic(networkName?: string): string {
+export function getPrivateKey(networkName?: string): string {
   if (networkName) {
-    const mnemonic = process.env['MNEMONIC_' + networkName.toUpperCase()];
-    if (mnemonic && mnemonic !== '') {
-      return mnemonic;
+    const privateKey = process.env['WALLET_PRIVATE_KEY_' + networkName.toUpperCase()];
+    if (privateKey && privateKey !== '') {
+      return privateKey;
     }
   }
 
-  const mnemonic = process.env.MNEMONIC;
-  if (!mnemonic || mnemonic === '') {
-    return 'test test test test test test test test test test test junk';
+  const privateKey = process.env.WALLET_PRIVATE_KEY;
+  if (!privateKey || privateKey === '') {
+    return '';
   }
-  return mnemonic;
+  return privateKey;
 }
 
-export function accounts(networkName?: string): {mnemonic: string} {
-  return {mnemonic: getMnemonic(networkName)};
+export function accounts(networkName?: string): [string] {
+  return [getPrivateKey(networkName)];
 }

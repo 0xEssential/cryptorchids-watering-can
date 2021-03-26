@@ -28,6 +28,10 @@
     "DISCORD_SERVER_ID": {
       "description": "Your Discord server ID, i.e. 823342438768050187",
       "required": false
+    },
+    "WALLET_PRIVATE_KEY": {
+      "description": "Your Ethereum wallet private key for the wallet that holds CryptOrchids - consider using a separate wallet for this purpose!",
+      "required": false
     }
   },
   "image": "heroku/nodejs",
