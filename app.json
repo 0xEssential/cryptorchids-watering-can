@@ -30,8 +30,11 @@
       "required": false
     },
     "WALLET_PRIVATE_KEY": {
-      "description": "Your Ethereum wallet private key for the wallet that holds CryptOrchids - consider using a separate wallet for this purpose!",
-      "required": false
+      "description": "Your Ethereum wallet private key for the wallet that holds CryptOrchids - consider using a separate wallet for this purpose!"
+    },
+    "HARDHAT_NETWORK" :{
+      "description": "Ethereum network, probably mainnet unless you are a CryptOrchids team member",
+      "value": "mainnet"
     }
   },
   "image": "heroku/nodejs",
