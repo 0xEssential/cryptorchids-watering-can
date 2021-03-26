@@ -23,7 +23,14 @@
   },
   "image": "heroku/nodejs",
   "addons": ["scheduler"],
-  "formation": [],
+  "formation": [
+    {
+      "web": {
+        "quantity": 0,
+        "size": "free"
+      }
+    }
+  ],
   "buildpacks": [
     {
       "url": "heroku/nodejs"
