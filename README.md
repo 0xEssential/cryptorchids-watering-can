@@ -2,7 +2,7 @@
 
 This project includes a Hardhat script that allows the owner of a CryptOrchid to water their plant by calling the `water` function on the CryptOrchidsERC721 smart contract on the Ethereum blockchain.
 
-The script is designed to be defensive and aims to only water your plant when your plant needs to be watered. **Given the asynchronous nature of writing to the Ethereum of block chain, if you run this script multiple times in quick succession, it may keill your CryptOrchids.** You should always ensure you understand the code that you are running, and we make no guarantees about the quality or appropriateness of this software. See DISCLAIMER for more.
+The script is designed to be defensive and aims to only water your plant when your plant needs to be watered. **Given the asynchronous nature of writing to the Ethereum block chain, if you run this script multiple times in quick succession, it may kill your CryptOrchids.** You should always ensure you understand the code that you are running, and we make no guarantees about the quality or appropriateness of this software. See DISCLAIMER for more.
 
 You can also water your CryptOrchid from the CryptOrchid website, but the CryptOrchids website is not guaranteed to exist forever. Visit https://cryptorchids.io/greenhouse to water your CryptOrchids - you'll need to use a web3 enabled browser, such as a desktop browser with MetaMask installed, or the MetaMask mobile browser.
 
@@ -16,7 +16,7 @@ If you want to use the script's Discord messaging functionality, you will need a
 
 This script can easily be deployed to Heroku and run on a job schedule, so you'll need a free Heroku account from https://heroku.com. The script can be run locally or from any server that offers a NodeJS runtime.
 
-Fnally, you may also want to create a new wallet to hold your CryptOrchids in. This script will require you to set your seed phrase or private key as ENV variables to authenticate. Storing these secrets on Heroku is typically fine, but to reduce risk of leaking the secrets to your primary wallet, use a CryptOrchids specific wallet.
+Fnally, you may also want to create a new wallet to hold your CryptOrchids in. This script will require you to set your seed phrase or private key as ENV variables to authenticate. Storing these secrets on Heroku is probably fine, but to reduce risk of leaking the secrets to your primary wallet, use a CryptOrchids specific wallet.
 
 ## Discord Setup
 

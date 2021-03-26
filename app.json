@@ -10,13 +10,24 @@
   "repository": "https://github.com/sbauch/cryptorchids-watering-can",
   "logo": "https://cryptorchids.io/blue-vanda.df75d507.png",
   "env": {
-    "SECRET_TOKEN": {
-      "description": "A secret key for verifying the integrity of signed cookies.",
-      "generator": "secret"
+    "CRYPTORCHIDS_CONTRACT_ADDRESS": {
+      "description": "The address of the CryptOrchids ERC721 contract",
+      "value": "0x196c4C7291D47BCDBbf37ab7ec9AE7ECB21Aef52"
     },
-    "WEB_CONCURRENCY": {
-      "description": "The number of processes to run.",
-      "value": "5"
+    "ETH_NODE_URI": {
+      "description": "An Infura API URL, i.e. https://mainnet.infura.io/v3/{{yourAPIKey}}"
+    },
+    "DISCORD_BOT_TOKEN": {
+      "description": "The auth token for a Discord bot",
+      "required": false
+    },
+    "DISCORD_USER_ID": {
+      "description": "Your Discord user ID (snowflake), i.e. 694927656805859499",
+      "required": false
+    },
+    "DISCORD_SERVER_ID": {
+      "description": "Your Discord server ID, i.e. 823342438768050187",
+      "required": false
     }
   },
   "image": "heroku/nodejs",
