@@ -44,8 +44,5 @@
     {
       "url": "heroku/nodejs"
     }
-  ],
-  "scripts": {
-    "postdeploy": "yarn ts-node testSetup.ts"
-  }
+  ]
 }
