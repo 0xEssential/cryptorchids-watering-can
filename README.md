@@ -18,18 +18,68 @@ This script can easily be deployed to Heroku and run on a job schedule, so you'l
 
 Fnally, you may also want to create a new wallet to hold your CryptOrchids in. This script will require you to set your seed phrase or private key as ENV variables to authenticate. Storing these secrets on Heroku is typically fine, but to reduce risk of leaking the secrets to your primary wallet, use a CryptOrchids specific wallet.
 
-## Run locally
-
-You can run this script locally,
-
-## Deploy to Heroku
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-
-
 ## Discord Setup
 
 This script includes some functionality to send a private message from a Discord bot to yourself to notify you about transactions resulting from calling the `water` function. This allows you to follow the transaction and ensure it completes before the watering window closes.
+
+First, you need a Discord server where you have permission ao add a Bot. It's free and easy to create your own Discord server.
+
+Once you have a server you can use, grab the server ID following the instructions at this Discord support article. You'll enable developer mode, which will also allow you to get your user ID which you will also need. - https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-.
+
+Next, create a New Application on the Discord developer portal by clicking the button in the top right corner at https://discord.com/developers/applications.
+
+Give your application a name (this is only for you, so it doesn't matter too much).
+
+Click into the Bot menu item. You can name your bot and give it an avatar, but the only requirement is that you copy the Bot token:
+
+![Discord bot token screenshot](./.github/bot-token.png)
+
+Click into the OAuth2 menu item. Give your application the bot scope:
+
+![Discord scopes screenshot](./.github/discord-scope.png)
+
+Then, in the next section, give your bot the Send Messages permission under Text Permissions:
+
+![Discord bot permissions screenshot](./.github/discord-bot-permissions.png)
+
+Now you're ready to authenticate your bot to your server - copy the OAuth URL from the scopes box and open it in your browser. You'll be asked to give permission to the bot to enter your server.
+
+Once the bot is in your server, ensure you have the following three values and you are ready to deploy or run your script:
+
+- **botToken** i.e `SBI1MDI0NzUyNDQ3NzgyOTEz.YF36LQ.Sw-rczOfalK0lVzuW8vBjjcnsy0`
+- **serverId** i.e. `814900494928445450`
+- **userId** i.e. `694927656805859499`
+
+## Run locally
+
+You can run this script locally by pulling the repo to your local machine.
+
+First, install the dependencies with `npm` or `yarn`.
+
+Then copy the `.env.example` file to `.env` and replace the example values with your own.
+
+You can check that things are set up properly by running the `testSetup.ts` script:
+```
+$ yarn ts-node ./testSetup.ts
+// or
+$ ts-node ./testSetup.ts
+```
+
+If the script runs scucessfully with the expected address, then you're ready to use the watering can. To run the watering script, use `ts-node` to run the `waterPlants.ts` script:
+
+```
+$ yarn ts-node ./waterplants.ts
+// or
+$ ts-node ./waterPlants.ts
+```
+
+## Deploy to Heroku
+
+The easiest way to run this script on a chron scheduler is to deploy it to Heroku with this button:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+Heroku will require that you input the ENV vars that are necessary to run the script.
 
 ## Disclaimer
 
