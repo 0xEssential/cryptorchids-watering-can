@@ -1,6 +1,6 @@
 # CryptOrchids Watering Can
 
-This project includes a Hardhat script that allows the owner of a CryptOrchid to water their plant by calling the `water` function on the CryptOrchidsERC721 smart contract on the Ethereum blockchain.
+This project includes a [Hardhat](https://hardhat.org/) script that allows the owner of a CryptOrchid to water their plant by calling the `water` function on the CryptOrchidsERC721 smart contract on the Ethereum blockchain.
 
 The script is designed to be defensive and aims to only water your plant when your plant needs to be watered. **Given the asynchronous nature of writing to the Ethereum block chain, if you run this script multiple times in quick succession, it may kill your CryptOrchids.** You should always ensure you understand the code that you are running, and we make no guarantees about the quality or appropriateness of this software. See DISCLAIMER for more.
 
@@ -22,9 +22,9 @@ Finally, you may also want to create a new wallet to hold your CryptOrchids in. 
 
 This script includes some functionality to send a private message from a Discord bot to yourself to notify you about transactions resulting from calling the `water` function. This allows you to follow the transaction and ensure it completes before the watering window closes.
 
-First, you need a Discord server where you have permission ao add a Bot. It's free and easy to create your own Discord server.
+First, you need a Discord server where you have permission to add a Bot. It's free and easy to create your own Discord server.
 
-Once you have a server you can use, grab the server ID following the instructions at this Discord support article. You'll enable developer mode, which will also allow you to get your user ID which you will also need. - https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-.
+Once you have a server you can use, grab the server ID following the instructions at this Discord support article. You'll enable developer mode, which will also allow you to get your user ID which you will also need - https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-.
 
 Next, create a New Application on the Discord developer portal by clicking the button in the top right corner at https://discord.com/developers/applications.
 
@@ -98,6 +98,10 @@ Your form should look like this:
 ![Heroku scheduler screenshot](./.github/heroku-scheduler.png)
 
 With that you're all set! If you chose to use the Discord bot functionality, you'll receive messages when the Watering Can performs the `water` method with a link to the transaction on Etherscan.
+
+## Halp!!
+
+If you're a bit lost reading through this then please stop and come get some help from the CryptOrchids team. We'd hate to see you kill your CryptOrchid, and using this project requires a bit of engineering know-how.  We're more than happy to help you get your Watering Can set up - join is in our Discord: https://discord.gg/ADFS4JAdTa
 
 ## Disclaimer
 
