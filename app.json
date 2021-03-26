@@ -1,0 +1,32 @@
+{
+  "name": "CryptOrchids Watering Can",
+  "description": "A Hardhat script for watering your CryptOrchids",
+  "keywords": [
+    "ehtereum",
+    "nft",
+    "cryptorchids"
+  ],
+  "website": "https://cryptorchids.io",
+  "repository": "https://github.com/sbauch/cryptorchids-watering-can",
+  "logo": "https://small-sharp-tool.com/logo.svg",
+  "env": {
+    "SECRET_TOKEN": {
+      "description": "A secret key for verifying the integrity of signed cookies.",
+      "generator": "secret"
+    },
+    "WEB_CONCURRENCY": {
+      "description": "The number of processes to run.",
+      "value": "5"
+    }
+  },
+  "formation": {
+  },
+  "image": "heroku/nodejs",
+  "addons": ["scheduler"],
+  "formation": [],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
