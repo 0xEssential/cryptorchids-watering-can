@@ -5,7 +5,6 @@ import { address, abi } from "./CryptOrchidERC721.json";
 import { BigNumber } from '@ethersproject/bignumber';
 import Discord from 'discord.js';
 
-const wateringPeriod = BigNumber.from(18000);
 const discordBot = new Discord.Client();
 
 const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
@@ -15,11 +14,11 @@ const DISCORD_SNOWFLAKE = process.env.DISCORD_SNOWFLAKE;
 
 let discordUserId = DISCORD_SNOWFLAKE;
 
-function readyForWatering({ alive, plantedAt, waterLevel}: {alive: boolean, plantedAt: BigNumber, waterLevel: BigNumber}) {
+function readyForWatering({ alive, plantedAt, waterLevel}: {alive: boolean, plantedAt: BigNumber, waterLevel: BigNumber}, GROWTH_CYCLE: BigNumber) {
   if (!alive) return false;
-  const elapsed = BigNumber.from(Date.now() / 1000).sub(plantedAt);
-  const fullCycles = Math.floor(wateringPeriod.div(elapsed.mul(1000)).toNumber());
-  console.warn(fullCycles)
+  const nowInEpochSeconds = Math.round(Date.now() / 1000)
+  const elapsed = BigNumber.from(nowInEpochSeconds).sub(plantedAt);
+  const fullCycles = Math.floor(GROWTH_CYCLE.div(elapsed).toNumber());
   return waterLevel.lt(fullCycles);
 }
 
@@ -81,7 +80,9 @@ async function main() {
       plantedAt
     } 
 
-    if (readyForWatering(orchid)){
+    const GROWTH_CYCLE = await CryptOrchidsContract.GROWTH_CYCLE();
+
+    if (readyForWatering(orchid, GROWTH_CYCLE)){
       const gas = await CryptOrchidsContract.estimateGas.water(
         token,
         Math.round(Date.now() / 1000),
