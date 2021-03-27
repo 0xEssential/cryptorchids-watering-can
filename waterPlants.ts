@@ -17,7 +17,7 @@ let discordUserId = DISCORD_SNOWFLAKE;
 
 function readyForWatering({ alive, plantedAt, waterLevel}: {alive: boolean, plantedAt: BigNumber, waterLevel: BigNumber}) {
   if (!alive) return false;
-  const elapsed = BigNumber.from(Math.round(Date.now() / 1000)).sub(plantedAt);
+  const elapsed = BigNumber.from(Date.now() / 1000).sub(plantedAt);
   const fullCycles = Math.floor(wateringPeriod.div(elapsed.mul(1000)).toNumber());
   console.warn(fullCycles)
   return waterLevel.lt(fullCycles);
