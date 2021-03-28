@@ -22,6 +22,7 @@ function readyForWatering(
 
   const elapsed = BigNumber.from(utcSecondsSinceEpoch).sub(plantedAt);
   const fullCycles = Math.floor(GROWTH_CYCLE.div(elapsed).toNumber());
+  
   return waterLevel.lt(fullCycles);
 }
 
@@ -81,15 +82,20 @@ async function main() {
         ),
       });
 
-      discordUser?.send(
-        `CryptOrchid watered in transaction: 
+      await discordUser?.send(
+        `CryptOrchid #${token} watered in transaction: 
         \`\`\`
         ${JSON.stringify(result, null, 2)}
         \`\`\`
         
-        View on etherscan: https://rinkeby.etherscan.com/tx/${result.hash}`
+        View on etherscan: https://rinkeby.etherscan.io/tx/${result.hash}`
       );
+      return;
     }
+
+    await discordUser?.send(
+      `CryptOrchid #${token} not ready for watering.`
+    );
   }
 }
 
