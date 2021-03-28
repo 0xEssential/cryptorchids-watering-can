@@ -3,54 +3,44 @@ import { ethers } from "hardhat";
 import "@nomiclabs/hardhat-ethers";
 import { address, abi } from "./CryptOrchidERC721.json";
 import { BigNumber } from '@ethersproject/bignumber';
-import Discord from 'discord.js';
+import Discord, { User } from 'discord.js';
 
 const discordBot = new Discord.Client();
 
 const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
-const DISCORD_USERNAME = process.env.DISCORD_USERNAME;
-const DISCORD_SERVER = process.env.DISCORD_SERVER_ID;
-const DISCORD_SNOWFLAKE = process.env.DISCORD_SNOWFLAKE;
+const DISCORD_USER_ID = process.env.DISCORD_USER_ID;
 
-let discordUserId = DISCORD_SNOWFLAKE;
-
-function readyForWatering({ alive, plantedAt, waterLevel}: {alive: boolean, plantedAt: BigNumber, waterLevel: BigNumber}, GROWTH_CYCLE: BigNumber) {
+function readyForWatering(
+  { alive, plantedAt, waterLevel }: { alive: boolean, plantedAt: BigNumber, waterLevel: BigNumber },
+  GROWTH_CYCLE: BigNumber,
+) {
   if (!alive) return false;
-  const nowInEpochSeconds = Math.round(Date.now() / 1000)
-  const elapsed = BigNumber.from(nowInEpochSeconds).sub(plantedAt);
+
+  const now = new Date();
+  const utcMillisecondsSinceEpoch = now.getTime() + (now.getTimezoneOffset() * 60 * 1000);
+  const utcSecondsSinceEpoch = Math.round(utcMillisecondsSinceEpoch / 1000);
+
+  const elapsed = BigNumber.from(utcSecondsSinceEpoch).sub(plantedAt);
   const fullCycles = Math.floor(GROWTH_CYCLE.div(elapsed).toNumber());
   return waterLevel.lt(fullCycles);
 }
 
-const  discordSetup = async (): Promise<string> => {
-  
-  return new Promise<string>((resolve, reject) => {
-    ['DISCORD_SERVER_ID', 'DISCORD_BOT_TOKEN', 'DISCORD_USERNAME'].forEach((envVar) => {
+const discordSetup = async (): Promise<User> => {
+  return new Promise<User>((resolve, reject) => {
+    ['DISCORD_BOT_TOKEN', 'DISCORD_USER_ID'].forEach((envVar) => {
       if (!process.env[envVar]) reject(`${envVar} not set`)
     })
   
     discordBot.login(DISCORD_BOT_TOKEN);
     discordBot.on('ready', async () => {
-      try {
-        const server = await discordBot?.guilds?.fetch(DISCORD_SERVER!);
-        const queryMembers = await server.members.fetch({ query: DISCORD_USERNAME!.replace(/(#.+)$/, '')})
-        queryMembers.array().length ? 
-          resolve(queryMembers.array()[0].user.id)
-          :
-          reject("User snowflake not found - make sure you've invited your bot to a server that you're in.");
-
-      } catch(e) {
-        reject(e)
-      }
+      const user = await discordBot.users.fetch(DISCORD_USER_ID!, false)
+      resolve(user);
     });
   })
 }
 
 async function main() {
-  if (DISCORD_USERNAME) {
-    discordUserId = await discordSetup();
-  }
-  
+  const discordUser = DISCORD_USER_ID ? await discordSetup() : null;
   const accounts = await ethers.getSigners();
   const CryptOrchidsContract = await ethers.getContractAt(
     abi,
@@ -62,12 +52,11 @@ async function main() {
   
   for (let index = 0; index < ownedCount.toNumber(); index++) {
     const token = await CryptOrchidsContract.tokenOfOwnerByIndex(accounts[0].address, index);
-    const alive = await CryptOrchidsContract.alive(token - 1, Math.round(Date.now() / 1000));
+    const alive = await CryptOrchidsContract.alive(token - 1);
     
-    if (!alive && discordUserId) {
-      await discordBot.users.fetch(discordUserId, false).then(async (user) => {
-        user.send(`CryptOrchid ${token} is dead - please compost it so a new bulb can be planted.`)
-      })
+    if (!alive) {
+      await discordUser?.send(`CryptOrchid #${token} is dead - please compost it so a new bulb can be planted.`)
+      continue;
     }
 
     const waterLevel = await CryptOrchidsContract.waterLevel(token - 1);
@@ -83,20 +72,18 @@ async function main() {
     const GROWTH_CYCLE = await CryptOrchidsContract.GROWTH_CYCLE();
 
     if (readyForWatering(orchid, GROWTH_CYCLE)){
-      const gas = await CryptOrchidsContract.estimateGas.water(
-        token,
-        Math.round(Date.now() / 1000),
-      );
-  
-      const result = await CryptOrchidsContract.water(token, Math.round(Date.now() / 1000), {
-        gasLimit: Math.max(gas.toNumber(), parseInt(process.env.GAS_LIMIT || '0')),
+      const gas = await CryptOrchidsContract.estimateGas.water(token);
+      
+      const result = await CryptOrchidsContract.water(token, {
+        gasLimit: Math.max(
+          gas.toNumber(),
+          parseInt(process.env.GAS_LIMIT || '0') // set a GAS_LIMIT env var to limit gas used
+        ),
       });
 
-      if (discordUserId) {
-        await discordBot.users.fetch(discordUserId, false).then(async (user) => {
-          await user.send(`CryptOrchid watered in transaction: ${result}. View on etherscan: https://rinkeby.etherscan.com/tx/${result.hash}`)
-        });
-      }
+      discordUser?.send(
+        `CryptOrchid watered in transaction: ${result}. View on etherscan: https://rinkeby.etherscan.com/tx/${result.hash}`
+      );
     }
   }
 }
