@@ -82,7 +82,12 @@ async function main() {
       });
 
       discordUser?.send(
-        `CryptOrchid watered in transaction: ${result}. View on etherscan: https://rinkeby.etherscan.com/tx/${result.hash}`
+        `CryptOrchid watered in transaction: 
+        \`\`\`
+        ${JSON.stringify(result, null, 2)}
+        \`\`\`
+        
+        View on etherscan: https://rinkeby.etherscan.com/tx/${result.hash}`
       );
     }
   }
