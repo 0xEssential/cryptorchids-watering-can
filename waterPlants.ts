@@ -21,8 +21,8 @@ function readyForWatering(
   const utcSecondsSinceEpoch = Math.round(utcMillisecondsSinceEpoch / 1000);
 
   const elapsed = BigNumber.from(utcSecondsSinceEpoch).sub(plantedAt);
-  const fullCycles = Math.floor(GROWTH_CYCLE.div(elapsed).toNumber());
-  
+  const fullCycles = Math.floor(elapsed.div(GROWTH_CYCLE).toNumber());
+
   return waterLevel.lt(fullCycles);
 }
 
@@ -50,7 +50,7 @@ async function main() {
   );
 
   const ownedCount = await CryptOrchidsContract.balanceOf(accounts[0].address);
-  
+
   for (let index = 0; index < ownedCount.toNumber(); index++) {
     const token = await CryptOrchidsContract.tokenOfOwnerByIndex(accounts[0].address, index);
     const alive = await CryptOrchidsContract.alive(token - 1);
@@ -90,7 +90,7 @@ async function main() {
         
         View on etherscan: https://rinkeby.etherscan.io/tx/${result.hash}`
       );
-      return;
+      continue;
     }
 
     await discordUser?.send(
