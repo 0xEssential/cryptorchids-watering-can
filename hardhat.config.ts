@@ -16,6 +16,11 @@ const config: HardhatUserConfig = {
       gas: 'auto'
 
     },
+    kovan: {
+      url: node_url('kovan'),
+      accounts: accounts('kovan'),
+      gas: 'auto'
+    },
     rinkeby: {
       url: node_url('rinkeby'),
       accounts: accounts('rinkeby'),
