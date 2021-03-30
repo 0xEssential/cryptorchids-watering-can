@@ -59,9 +59,7 @@ async function main() {
       await discordUser?.send(`CryptOrchid #${token} is dead - please compost it so a new bulb can be planted.`)
       continue;
     }
-
-    const waterLevel = await CryptOrchidsContract.waterLevel(token - 1);
-    const { 1: plantedAt } = await CryptOrchidsContract.getTokenMetadata(token);
+    const { 1: plantedAt, 2: waterLevel } = await CryptOrchidsContract.getTokenMetadata(token);
 
     const orchid = {
       token,
